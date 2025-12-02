@@ -5,9 +5,14 @@ ENV ASPNETCORE_URLS=http://+:10000
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
-COPY ["PruebaRepositorio.csproj", "./"]
+# Copia el .csproj desde la carpeta PruebaRepositorio
+COPY ["PruebaRepositorio/PruebaRepositorio.csproj", "./"]
 RUN dotnet restore "PruebaRepositorio.csproj"
+
+# Copia todo el proyecto
 COPY . .
+# Mueve el WORKDIR a la carpeta del proyecto
+WORKDIR "/src/PruebaRepositorio"
 RUN dotnet build "PruebaRepositorio.csproj" -c Release -o /app/build
 
 FROM build AS publish
